@@ -1,0 +1,34 @@
+using Business;
+using Business.Profiles;
+using Business.Profiles;
+using DataAccess;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddDataAccessServices(builder.Configuration);
+builder.Services.AddBusinessServices();
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(CourseMappingProfiles));
+builder.Services.AddAutoMapper(typeof(CategoryMappingProfiles));
+builder.Services.AddAutoMapper(typeof(InstructorMappingProfiles));
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
